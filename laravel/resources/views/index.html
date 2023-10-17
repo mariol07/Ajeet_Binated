@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blog Posts</title>
+    <style>
+      
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: white;
+            padding: 20px;
+            margin: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            color: #666;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>All Blog Posts</h1>
+    <ul>
+        <li>
+            <h2>Sample Blog Post 1</h2>
+            <p>This is the content of the first blog post. It can be quite long and detailed.</p>
+        </li>
+        <li>
+            <h2>Sample Blog Post 2</h2>
+            <p>Another blog post with some interesting content. Lorem ipsum dolor sit amet.</p>
+        </li>
+        <!-- Repeat this structure for each blog post -->
+    </ul>
+</body>
+</html>
+
+    </style>
+</head>
+<body>
+    <h1>All Blog Posts</h1>
+    <ul id="blog-list">
+        <!-- Blog posts will be displayed here -->
+    </ul>
+    <button onclick="loadBlogs()">Refresh</button>
+
+    <script>
+        // JavaScript for fetching and displaying blog posts
+        function loadBlogs() {
+            // Replace with your API endpoint for retrieving blogs
+            fetch('http://assignment.binated.com/api/posts', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer YOUR_BEARER_TOKEN'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const blogList = document.getElementById('blog-list');
+                blogList.innerHTML = ''; // Clear existing entries
+
+                if (data.success) {
+                    data.data.forEach(post => {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `
+                            <h2>${post.title}</h2>
+                            <p>${post.content}</p>
+                        `;
+                        blogList.appendChild(listItem);
+                    });
+                } else {
+                    console.error('Failed to retrieve blog posts: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        // Load blogs on page load
+        loadBlogs();
+    </script>
+</body>
+</html>
